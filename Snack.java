@@ -1,14 +1,9 @@
 import java.util.regex.Pattern;
 
-public class Snack{
-
-    public static void main(String[] args){
-        Snack newSnack = new Snack("F/1234567", "TestSnack", 200);
-        System.out.println(newSnack.toString());
-    }
-    
-    private String snackID, name;
-    private int basePrice;
+abstract class Snack{
+ 
+    protected String snackID, name;
+    protected int basePrice;
 
     public Snack(String snackID, String name, int basePrice){
         if (isValidSnackID(snackID) && isValidBasePrice(basePrice)){
@@ -18,9 +13,9 @@ public class Snack{
         }
     }
 
-    // Accessor Methods
+// Accessor Methods
     public String toString(){
-        return ("SnackID: " + snackID + "\n Name: " + name + "\n Base Price: " + basePrice);
+        return ("SnackID: " + snackID + "\n Name: " + name + "\n Base Price: " + getPriceString(basePrice));
     }
 
     public String getSnackID(){
@@ -36,9 +31,10 @@ public class Snack{
     }
 
 
-    // Support Methods
+// Service Methods
+    public abstract int calculatePrice();
 
-    //
+// Support Methods
     private boolean isValidSnackID(String snackID){
         try{
             if (Pattern.matches("[FD][/][0-9]{7}", snackID)) {
@@ -66,6 +62,11 @@ public class Snack{
             System.err.println(errorString);
             return false;
         }
+    }
+
+    private String getPriceString(int price){
+        float decimalPrice = price / 100;
+        return ("£" + decimalPrice);
     }
     
 }
