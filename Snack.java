@@ -5,7 +5,7 @@ abstract class Snack{
     protected String snackID, name;
     protected int basePrice;
 
-    public Snack(String snackID, String name, int basePrice){
+    public Snack (String snackID, String name, int basePrice) throws InvalidSnackException{
         if (isValidSnackID(snackID) && isValidBasePrice(basePrice)){
             this.snackID = snackID;
             this.name = name;
@@ -35,38 +35,27 @@ abstract class Snack{
     public abstract int calculatePrice();
 
 // Support Methods
-    private boolean isValidSnackID(String snackID){
-        try{
-            if (Pattern.matches("[FD][/][0-9]{7}", snackID)) {
-                return true;
-            }
-            else {
-                throw new InvalidSnackException("Invalid snackID!");
-            }
+    private boolean isValidSnackID(String snackID) throws InvalidSnackException{
+        if (Pattern.matches("[FD][/][0-9]{7}", snackID)) {
+            return true;
         }
-        catch (InvalidSnackException errorString) {
-            System.err.println(errorString);
-            return false;
+        else {
+            throw new InvalidSnackException("Invalid snackID!");
         }
-            
     }
 
-    private boolean isValidBasePrice(int basePrice){
-        try {
-            if (basePrice > -1){
-                return true;
-            }
-            else throw new InvalidSnackException("Invalid basePrice!");
+    private boolean isValidBasePrice(int basePrice) throws InvalidSnackException{
+        if (basePrice > -1){
+            return true;
         }
-        catch (InvalidSnackException errorString){
-            System.err.println(errorString);
-            return false;
+        else{
+            throw new InvalidSnackException("Invalid basePrice!");
         }
     }
 
     private String getPriceString(int price){
         float decimalPrice = price / 100;
-        return ("£" + decimalPrice);
+        return String.format("£ %,.2f", decimalPrice);
     }
     
 }
