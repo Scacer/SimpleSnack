@@ -1,6 +1,47 @@
 public class Food extends Snack {
 
-    // Test Harness
+    // Class Variable
+    public final double surchagePercentage = 1.1;
+
+    private boolean heated;
+
+// Constructor
+    public Food(String snackID, String name, int basePrice, boolean heated) throws InvalidSnackException{
+        super(snackID, name, basePrice);
+
+        if (isFoodItem(snackID)){
+            this.heated = heated;
+        }
+    }
+
+// Accessor Methods
+    public String toString(){
+        return super.toString() + "\nHeated: " + heated + "\n";
+    }
+
+    public boolean getHeated(){
+        return heated;
+    }
+
+// Service Methods
+    public int calculatePrice(){
+        int price = Math.round( (float)(basePrice * surchagePercentage) );
+        return price;
+    }
+
+// Support Methods
+    private boolean isFoodItem(String snackID) throws InvalidSnackException{
+        String firstChar = snackID.substring(0, 1);
+
+        if (firstChar.equals("F")){
+            return true;
+        }
+        else {
+            throw new InvalidSnackException("Attempted to create Food Object where SnackID does not indicate a Food item!");
+        }
+    }
+
+// Test Harness
     public static void main(String[] args) {
         // The following try block should execute without issue as all attribute inputs are expected.
         try{
@@ -42,42 +83,6 @@ public class Food extends Snack {
         }
         catch (InvalidSnackException errString){
             System.err.println(errString);
-        }
-    }
-
-    // Class Variable
-    public final double surchagePercentage = 1.1;
-
-    private boolean heated;
-
-    public Food(String snackID, String name, int basePrice, boolean heated) throws InvalidSnackException{
-        super(snackID, name, basePrice);
-
-        if (isFoodItem(snackID)){
-            this.heated = heated;
-        }
-    }
-
-// Accessor Methods
-    public boolean getHeated(){
-        return heated;
-    }
-
-// Service Methods
-    public int calculatePrice(){
-        int price = Math.round( (float)(basePrice * surchagePercentage) );
-        return price;
-    }
-
-// Support Methods
-    private boolean isFoodItem(String snackID) throws InvalidSnackException{
-        String firstChar = snackID.substring(0, 1);
-
-        if (firstChar.equals("F")){
-            return true;
-        }
-        else {
-            throw new InvalidSnackException("Attempted to create Food Object where SnackID does not indicate a Food item!");
         }
     }
 

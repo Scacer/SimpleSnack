@@ -5,6 +5,7 @@ abstract class Snack{
     protected String snackID, name;
     protected int basePrice;
 
+// Constructor
     public Snack (String snackID, String name, int basePrice) throws InvalidSnackException{
         if (isValidSnackID(snackID) && isValidBasePrice(basePrice)){
             this.snackID = snackID;
@@ -15,7 +16,7 @@ abstract class Snack{
 
 // Accessor Methods
     public String toString(){
-        return ("SnackID: " + snackID + "\n Name: " + name + "\n Base Price: " + getPriceString(basePrice));
+        return ("\nSnackID: " + snackID + "\nName: " + name + "\nBase Price: " + getPriceString(basePrice));
     }
 
     public String getSnackID(){
