@@ -66,7 +66,7 @@ public class Drink extends Snack {
             sugarContent = SugarContents.valueOf(sugarString.toUpperCase());
         }
         catch (IllegalArgumentException errString){
-            throw new InvalidSnackException("Invalid sugarContent value!");
+            throw new InvalidSnackException("Invalid sugarContent value - sugarContent should be entered as high, low, or none!");
         }
     }
 
