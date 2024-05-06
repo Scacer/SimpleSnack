@@ -28,7 +28,7 @@ public class Drink extends Snack {
 
 // Accessor Methods
     public String toString(){
-        return super.toString() + "\nSugar Content: " + sugarContent + "\n";
+        return super.toString() + ", sugarContent: " + sugarContent + "}";
     }
 
     public String getSugarContent(){
@@ -75,6 +75,7 @@ public class Drink extends Snack {
         // The following try block creates a valid Drink object using the first constructor, which sets the sugarContent automatically to none.
         try{
             Drink testDrink = new Drink("D/1234567", "testDrink", 300);
+            System.out.println(testDrink);
 
             // The sugarContent is automatically set to none, thus the calculatePrice method should return simply the basePrice of 300.
             System.out.println(testDrink.calculatePrice());

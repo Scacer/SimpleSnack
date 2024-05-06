@@ -16,7 +16,7 @@ abstract class Snack{
 
 // Accessor Methods
     public String toString(){
-        return ("\nSnackID: " + snackID + "\nName: " + name + "\nBase Price: " + getPriceString(basePrice));
+        return ("Snack{snackID: " + snackID + ", name: " + name + ", basePrice: " + basePrice);
     }
 
     public String getSnackID(){
@@ -52,11 +52,6 @@ abstract class Snack{
         else{
             throw new InvalidSnackException("Invalid basePrice!");
         }
-    }
-
-    private String getPriceString(int price){
-        float decimalPrice = price / 100;
-        return String.format("£ %,.2f", decimalPrice);
     }
     
 }

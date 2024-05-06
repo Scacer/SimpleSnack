@@ -16,7 +16,7 @@ public class Food extends Snack {
 
 // Accessor Methods
     public String toString(){
-        return super.toString() + "\nHeated: " + heated + "\n";
+        return super.toString() + ", heated: " + heated + "}";
     }
 
     public boolean getHeated(){

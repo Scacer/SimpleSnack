@@ -28,7 +28,7 @@ public class Customer {
 
 // Accessor Methods
     public String toString(){
-        return "\ncustomerID: " + customerID + "\nName: " + name + "\nBalance: " + getBalanceString();
+        return "Customer{customerID: " + customerID + ", name: " + name + ", balance:" + balance + "}";
     }
 
     public String getCustomerID(){
@@ -77,11 +77,6 @@ public class Customer {
         else{
             throw new InvalidCustomerException("Invalid customerID provided - customerID must be a String of 6 alphanumeric characters!");
         }
-    }
-
-    private String getBalanceString(){
-        float decimalBalance = balance / 100;
-        return String.format("£ %,.2f", decimalBalance);
     }
 
 // Test Harness
