@@ -1,12 +1,12 @@
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SnackShop {
 
 // Attributes
     private String name;
     private int turnover;
-    private ArrayList<Snack> stockedSnacks;
-    private ArrayList<Customer> customerAccounts;
+    private HashMap<String, Snack> stockedSnacks;
+    private HashMap<String, Customer> customerAccounts;
 
 // Constructor
     public SnackShop(String name){
@@ -33,12 +33,29 @@ public class SnackShop {
     }
 
 // Service Methods
-    public void addCustomer(Customer newCustomer){
-        customerAccounts.add(newCustomer);
+    public void addCustomer(String customerID, Customer newCustomer){
+        try{
+            if (customerAccounts.get)
+            customerAccounts.put(customerID, newCustomer);
+        }
+        catch (InvalidCustomerException errString){
+            System.err.println(errString);
+        }
     }
 
-    public void addSnack(Snack newSnack){
-        stockedSnacks.add(newSnack);
+    public void addSnack(String snackID, Snack newSnack){
+        stockedSnacks.put(snackID, newSnack);
+    }
+
+    public Customer getCustomer(String customerID) throws InvalidCustomerException{
+        Customer tempCustomer = customerAccounts.get(customerID);
+
+        if (tempCustomer != null){
+            return tempCustomer;
+        }
+        else{
+            throw new InvalidCustomerException("There is no customer account associated with customerID: " + customerID);
+        }
     }
         
 
