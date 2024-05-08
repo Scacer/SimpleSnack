@@ -35,8 +35,12 @@ public class SnackShop {
 // Service Methods
     public void addCustomer(String customerID, Customer newCustomer){
         try{
-            if (customerAccounts.get)
-            customerAccounts.put(customerID, newCustomer);
+            if ( customerExists(customerID) ){
+                customerAccounts.put(customerID, newCustomer);
+            }
+            else {
+                throw new InvalidCustomerException("A duplicate customerID was entered - customerID values should be unique!");
+            }
         }
         catch (InvalidCustomerException errString){
             System.err.println(errString);
@@ -48,18 +52,20 @@ public class SnackShop {
     }
 
     public Customer getCustomer(String customerID) throws InvalidCustomerException{
-        Customer tempCustomer = customerAccounts.get(customerID);
-
-        if (tempCustomer != null){
-            return tempCustomer;
+        if ( customerExists(customerID) ){
+            return customerAccounts.get(customerID);
         }
-        else{
-            throw new InvalidCustomerException("There is no customer account associated with customerID: " + customerID);
-        }
+        throw new InvalidCustomerException("There is no customer account associated with customerID: " + customerID);   
     }
         
 
 // Support Methods
+    private boolean customerExists(String customerID){
+        if ( customerAccounts.get(customerID) != null){
+            return true;
+        }
+        return false; 
+    }
 
     
 }
