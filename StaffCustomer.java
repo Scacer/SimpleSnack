@@ -29,23 +29,17 @@ public class StaffCustomer extends Customer{
 
 // Service Methods
 
-    public int chargeAccount(int snackPrice){
+    public int chargeAccount(int snackPrice) throws InsufficientBalanceException{
         double discountAmount = getDiscountAmount();
         snackPrice = Math.round( (float)(snackPrice * discountAmount) );
 
         int dummyBalance = balance;
-        try{
-            if ( (dummyBalance - snackPrice) > -1){
-                balance = balance - snackPrice;
-                return snackPrice;
-            }
-            else{
-                throw new InsufficientBalanceException("Customer's balance is insufficient for this purchase - Staff do not have access to negative balance!");
-            }
+        if ( (dummyBalance - snackPrice) > -1){
+            balance = balance - snackPrice;
+            return snackPrice;
         }
-        catch (InsufficientBalanceException errString){
-            System.err.println(errString);
-            return 0;
+        else{
+            throw new InsufficientBalanceException("Customer's balance is insufficient for this purchase - Staff do not have access to negative balance!");
         }
     }
 
@@ -98,31 +92,36 @@ public class StaffCustomer extends Customer{
             StaffCustomer testCustomerMisc = new StaffCustomer("ABCD56", "testCustomerMisc", "MISC");
             System.out.println(testCustomerMisc);
 
-            System.out.println("\nTest 3\n");
-            // The following statements will utilise an object created with school CMP to test the chargeAccount method for the appropriate discount.
-            //  CMP gets a 10% discount so we can expect a snackPrice of 200 to charge 180, this is verified by printing the balance before and after.
-            System.out.println(testCustomerCMP.getBalance());
-            System.out.println(testCustomerCMP.chargeAccount(200));
-            System.out.println(testCustomerCMP.getBalance());
+            try{
+                System.out.println("\nTest 3\n");
+                // The following statements will utilise an object created with school CMP to test the chargeAccount method for the appropriate discount.
+                //  CMP gets a 10% discount so we can expect a snackPrice of 200 to charge 180, this is verified by printing the balance before and after.
+                System.out.println(testCustomerCMP.getBalance());
+                System.out.println(testCustomerCMP.chargeAccount(200));
+                System.out.println(testCustomerCMP.getBalance());
             
-            System.out.println("\nTest 4\n");
-            // The following statements will utilise an object created with school BIO and MTH to test the chargeAccount method for the appropriate discount.
-            //  These schools get a 2% discount, so we can expect a snackPrice of 200 to charge 196, this is verified by printing the balances before and after.
-            System.out.println(testCustomerBIO.getBalance());
-            System.out.println(testCustomerBIO.chargeAccount(200));
-            System.out.println(testCustomerBIO.getBalance());
+                System.out.println("\nTest 4\n");
+                // The following statements will utilise an object created with school BIO and MTH to test the chargeAccount method for the appropriate discount.
+                //  These schools get a 2% discount, so we can expect a snackPrice of 200 to charge 196, this is verified by printing the balances before and after.
+                System.out.println(testCustomerBIO.getBalance());
+                System.out.println(testCustomerBIO.chargeAccount(200));
+                System.out.println(testCustomerBIO.getBalance());
 
-            System.out.println(testCustomerMTH.getBalance());
-            System.out.println(testCustomerMTH.chargeAccount(200));
-            System.out.println(testCustomerMTH.getBalance());
+                System.out.println(testCustomerMTH.getBalance());
+                System.out.println(testCustomerMTH.chargeAccount(200));
+                System.out.println(testCustomerMTH.getBalance());
 
-            System.out.println("\nTest 5\n");
-            // The following statements will utilise an object created with school OTHER to test the chargeAccount method for the appropriate discount.
-            //  OTHER schools do not get a discount, so we can expect the charge to be identical to the provided snackPrice, this is verified by printing the
-            //  balances before and after.
-            System.out.println(testCustomerOTHER.getBalance());
-            System.out.println(testCustomerOTHER.chargeAccount(200));
-            System.out.println(testCustomerOTHER.getBalance());
+                System.out.println("\nTest 5\n");
+                // The following statements will utilise an object created with school OTHER to test the chargeAccount method for the appropriate discount.
+                //  OTHER schools do not get a discount, so we can expect the charge to be identical to the provided snackPrice, this is verified by printing the
+                //  balances before and after.
+                System.out.println(testCustomerOTHER.getBalance());
+                System.out.println(testCustomerOTHER.chargeAccount(200));
+                System.out.println(testCustomerOTHER.getBalance());
+            }
+            catch (InsufficientBalanceException errString){
+                System.err.println(errString);
+            }
         }
         catch (InvalidCustomerException errString){
             System.err.println(errString);

@@ -51,21 +51,16 @@ public class Customer {
         }
     }
 
-    public int chargeAccount(int snackPrice){
+    public int chargeAccount(int snackPrice) throws InsufficientBalanceException{
         int dummyBalance = balance;
 
-        try{
-            if ( (dummyBalance - snackPrice) > -1){
-                balance = balance - snackPrice;
-                return snackPrice;
-            }
-            else {
-                throw new InsufficientBalanceException("Customer's balance is insufficient for this purchase - snackPrice must be equal to or less than Customer balance!");
-            }
+        
+        if ( (dummyBalance - snackPrice) > -1){
+            balance = balance - snackPrice;
+            return snackPrice;
         }
-        catch (InsufficientBalanceException errString){
-            System.err.println(errString);
-            return 0;
+        else {
+            throw new InsufficientBalanceException("Customer's balance is insufficient for this purchase - snackPrice must be equal to or less than Customer balance!");
         }
     }
 
@@ -151,17 +146,27 @@ public class Customer {
 
             // The following lines should successfully attempt to charge the account for a specified price which is below the balance. This will be
             //  validated by printing the balance before and after. The chargeAccount method should also return the amount deducted.
+            try{
             System.out.println(fundTestCustomer.getBalance());
             System.out.println(fundTestCustomer.chargeAccount(300));
             System.out.println(fundTestCustomer.getBalance());
+            }
+            catch (InsufficientBalanceException errString){
+                System.err.println(errString);
+            }
 
             System.out.println("\nTest 7\n");
 
             // The following lines should attempt to charge the account for a specified amount which is above the balance of the customer. This should
-            //  throw (and catch) an internal InsufficientBalanceException and not alter the customer balance, as validated by the print statements.
-            System.out.println(fundTestCustomer.getBalance());
-            fundTestCustomer.chargeAccount(500);
-            System.out.println(fundTestCustomer.getBalance());
+            //  throw an InsufficientBalanceException and not alter the customer balance, as validated by the print statements.
+            try{
+                System.out.println(fundTestCustomer.getBalance());
+                fundTestCustomer.chargeAccount(500);
+                System.out.println(fundTestCustomer.getBalance());
+            }
+            catch (InsufficientBalanceException errString){
+                System.err.println(errString);
+            }
         }
         catch (InvalidCustomerException errString){
             System.err.println(errString);

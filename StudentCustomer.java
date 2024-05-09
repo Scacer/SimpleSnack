@@ -18,22 +18,16 @@ public class StudentCustomer extends Customer {
     }
 
 // Service Methods
-    public int chargeAccount(int snackPrice){
+    public int chargeAccount(int snackPrice) throws InsufficientBalanceException{
         snackPrice = Math.round( (float)(snackPrice * getDiscountAmount()) );
 
         int dummyBalance = balance;
-        try{
-            if ( (dummyBalance - snackPrice) > -501){
-                balance = balance - snackPrice;
-                return snackPrice;
-            }
-            else{
-                throw new InsufficientBalanceException("Customer's balance is insufficient for this purchase - Students can have a negative balance of up to £5.00!");
-            }
+        if ( (dummyBalance - snackPrice) > -501){
+            balance = balance - snackPrice;
+            return snackPrice;
         }
-        catch (InsufficientBalanceException errString){
-            System.err.println(errString);
-            return 0;
+        else{
+            throw new InsufficientBalanceException("Customer's balance is insufficient for this purchase - Students can have a negative balance of up to £5.00!");
         }
         
     }
@@ -83,13 +77,16 @@ public class StudentCustomer extends Customer {
             System.out.println("\nTest 5\n");
 
             // The following code should attempt to charge the account a further amount which would be large enough to cause the customer's balance to
-            //  decrease below -500, therefore the method should throw (and catch) an InsufficientBalanceException and should not alter the balance.
+            //  decrease below -500, therefore the method should throw an InsufficientBalanceException and should not alter the balance.
             System.out.println(testCustomer2.getBalance());
             System.out.println(testCustomer2.chargeAccount(200));
             System.out.println(testCustomer2.getBalance());
             
         }
         catch (InvalidCustomerException errString){
+            System.err.println(errString);
+        }
+        catch (InsufficientBalanceException errString){
             System.err.println(errString);
         }
     }
