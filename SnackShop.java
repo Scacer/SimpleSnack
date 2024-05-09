@@ -1,6 +1,7 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 
-public class SnackShop {
+public class SnackShop{
 
 // Attributes
     private String name;
@@ -80,6 +81,36 @@ public class SnackShop {
         turnover += transactionCustomer.chargeAccount(transactionSnack.calculatePrice());
         return true;
     }
+
+    public int findLargestBasePrice(){
+        ArrayList<Integer> basePrices = getSnackBasePrices();
+        basePrices.sort(null);
+        return basePrices.get(basePrices.size()-1);
+    }
+
+    public int countNegativeAccounts(){
+        ArrayList<Integer> balances = getCustomerBalances();
+        
+        int count = 0;
+        for (int i = 0; i < balances.size() ;i++){
+            if (balances.get(i) < 0){
+                count = count + 1;
+            }
+        }
+        return count;
+    }
+
+    public double calculateMedianCustomerBalance(){
+        ArrayList<Integer> balances = getCustomerBalances();
+        balances.sort(null);
+
+        if (balances.size() % 2 == 0){
+            return (balances.get(balances.size() / 2 - 1) + balances.get(balances.size() / 2)) / 2;
+        }
+        else{
+            return (balances.get(balances.size() / 2 + 1));
+        }
+    }
         
 
 // Support Methods
@@ -95,6 +126,26 @@ public class SnackShop {
             return true;
         }
         return false;
+    }
+    
+    private ArrayList<Integer> getSnackBasePrices(){
+        ArrayList<Integer> basePrices = new ArrayList<>();
+        Snack[] snacks = stockedSnacks.values().toArray(new Snack[0]);
+
+        for (Snack snack : snacks){
+            basePrices.add(snack.getBasePrice());
+        }
+        return basePrices;
+    }
+
+    private ArrayList<Integer> getCustomerBalances(){
+        ArrayList<Integer> balances = new ArrayList<>();
+        Customer[] customers = customerAccounts.values().toArray(new Customer[0]);
+
+        for (Customer customer : customers){
+            balances.add(customer.getBalance());
+        }
+        return balances;
     }
 
 // Test Harness
@@ -176,6 +227,58 @@ public class SnackShop {
             System.err.println(errString);
         }
         catch (InvalidSnackException errString){
+            System.err.println(errString);
+        }
+        catch (InsufficientBalanceException errString){
+            System.err.println(errString);
+        }
+
+        System.out.println("\nTest 8\n");
+        // The following code will create a new SnackShop, and then load 4 new snacks into the stockedSnacks collection with differing base prices. We will use
+        //  this data to test the findLargestBasePrice method which should return 375 as this is the highest base price given.
+        try{
+            SnackShop testShop = new SnackShop("testShop");
+            
+            testShop.addSnack("F/1234567", new Food("F/1234567", "testFood1", 375, true));
+            testShop.addSnack("F/1234568", new Food("F/1234568", "testFood2", 200, true));
+            testShop.addSnack("D/1234567", new Drink("D/1234567", "testFood3", 325));
+            testShop.addSnack("D/1234568", new Drink("D/1234568", "testFood4", 300, "high"));
+
+            System.out.println(testShop.findLargestBasePrice());
+
+            System.out.println("\nTest 9\n");
+            // The following code will load 6 new Customer objects into the customerAccounts collection. It will then use this data (and data from the previous test)
+            //  to take the two StudentCustomers into negative balance and test the countNegativeBalances method to verify it works.
+            testShop.addCustomer("A12345", new Customer("A12345", "testCustomer1", 500));
+            testShop.addCustomer("A12346", new Customer("A12345", "testCustomer2", 200));
+            testShop.addCustomer("A12347", new Customer("A12345", "testCustomer3"));
+            testShop.addCustomer("A12348", new StudentCustomer("A12345", "testCustomer4", 0));
+            testShop.addCustomer("A12349", new StaffCustomer("A12345", "testCustomer5", 1500, "CMP"));
+            testShop.addCustomer("A12350", new StudentCustomer("A12345", "testCustomer6", 0));
+
+            testShop.processPurchase("A12348", "D/1234567");
+            testShop.processPurchase("A12350", "F/1234567");
+
+            System.out.println(testShop.countNegativeAccounts());
+
+            System.out.println("\nTest 10\n");
+            // The following lines will use the previously input data to test the calculateMedianCustomerBalance method, this should be 200
+            System.out.println(testShop.calculateMedianCustomerBalance());
+
+            System.out.println("\nTest 11\n");
+            // The following lines will add an extra customer, making the total number of customers in customerAccount odd, this should change the median to
+            //  the 4th value (250 in this case)
+            testShop.addCustomer("A123B4", new Customer("A123B4", "testCustomer 7", 250));
+
+            System.out.println(testShop.calculateMedianCustomerBalance());
+
+
+
+        }
+        catch (InvalidSnackException errString){
+            System.err.println(errString);
+        }
+        catch (InvalidCustomerException errString){
             System.err.println(errString);
         }
         catch (InsufficientBalanceException errString){
