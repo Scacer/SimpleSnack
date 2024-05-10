@@ -32,7 +32,7 @@ public class StudentCustomer extends Customer {
         
     }
 
-    public static double getDiscountAmount(){
+    private static double getDiscountAmount(){
         return studentDiscount;
     }
 

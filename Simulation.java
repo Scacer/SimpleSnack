@@ -1,3 +1,21 @@
+/********************************************************************************************************************
+* SimpleSnack (Programming 1 - Summative Assessment 2)
+*   Author - Sunny(Sonney) Ledger
+*   Date: 10/05/2024
+*   Description: SimpleSnack is a programming project dedicated to creating a prototype system for the simulation of
+                    snack shops run by MakeMeSomeMoolah Inc. The primary function of this project is to simulate
+                    transactions made by customers purchasing snacks, keeping track of the turnover for the shop.
+                    However other functions such as applying discounts to snack prices based on type of customer
+                    or snack and finding the median of all customer balances should be implemented where relevant.
+********************************************************************************************************************/
+
+/* 
+ * public class Simulation:
+ *  The simulation class' function is to read through files containing data pertaining to the snack shop simulation and
+ *  to then input this data into objects defined by classes written to model the key objects in the SimpleSnack system.
+ *  The second (and only other) function of this class - after having set up the shop environment - is to simulate the
+ *  operation of a snack shop by reading through another file which contains a series of transactions to be made.
+*/
 import java.io.*;
 
 public class Simulation {
@@ -13,15 +31,12 @@ public class Simulation {
 
         SnackShop newShop = initialiseShop("The New Shop", snackFile, customerFile);
         simulateShopping(newShop, transactionFile);
-
-        System.out.println(newShop.getTurnover());
-        System.out.println(newShop.countNegativeAccounts());
-
-
     }
 
 // Service Methods
-
+    // The initialiseShop method reads through each line in provided files which should contain information about
+    //  both Snacks and Customers. This method then loads the data into appropriate objects and adds them to
+    //  collections held within a newly created SnackShop object which is then returned.
     public static SnackShop initialiseShop(String shopName, File snackFile, File customerFile){
         SnackShop newSnackShop = new SnackShop(shopName);
         try{
@@ -182,6 +197,10 @@ public class Simulation {
         catch (IOException errString){
             System.err.println(errString);
         }
+        System.out.println("\nLargest basePrice of a stocked snack: " + shop.findLargestBasePrice());
+        System.out.println("Total number of Customers with negative balance: " + shop.countNegativeAccounts());
+        System.out.println("Median Customer Balance: " + shop.calculateMedianCustomerBalance());
+        System.out.println("Total Shop Turnover: " + shop.getTurnover());
 
 
 

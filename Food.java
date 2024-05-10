@@ -25,7 +25,7 @@ public class Food extends Snack {
 
 // Service Methods
     public int calculatePrice(){
-        int price = (int)Math.ceil( basePrice * surchagePercentage );
+        int price = Math.round( (float)(basePrice * surchagePercentage) );
         return price;
     }
 
