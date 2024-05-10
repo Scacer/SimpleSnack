@@ -31,7 +31,7 @@ public class StaffCustomer extends Customer{
 
     public int chargeAccount(int snackPrice) throws InsufficientBalanceException{
         double discountAmount = getDiscountAmount();
-        snackPrice = Math.round( (float)(snackPrice * discountAmount) );
+        snackPrice = (int)Math.ceil(snackPrice * discountAmount);
 
         int dummyBalance = balance;
         if ( (dummyBalance - snackPrice) > -1){

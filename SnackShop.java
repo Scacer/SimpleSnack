@@ -78,7 +78,7 @@ public class SnackShop{
         Customer transactionCustomer =  getCustomer(customerID);
         Snack transactionSnack = getSnack(snackID);
 
-        turnover += transactionCustomer.chargeAccount(transactionSnack.calculatePrice());
+        turnover = turnover + transactionCustomer.chargeAccount(transactionSnack.calculatePrice());
         return true;
     }
 
