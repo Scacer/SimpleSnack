@@ -1,13 +1,22 @@
+/******************************************************************************************************************
+ * public class StudentCustomer:
+ *  The StudentCustomer class extends Customer by adding extra functionality for a student discount as well as
+ *  allowing a negative balance of up to -500, providing Students with a £5 credit.
+ ******************************************************************************************************************/
 public class StudentCustomer extends Customer {
 
-// Attributes
+// CLass Variables
+    // studentDiscount is consistent across all StudentCustomer objects
     private static double studentDiscount = 0.95;
 
 // Constructors
+    // This constructor takes arguments for the attributes customerID and name, utilising the superclass constructor, setting balance to 0;
     public StudentCustomer(String customerID, String name) throws InvalidCustomerException{
         super(customerID, name);
     }
 
+    // This constructor takes arguments for all attributes - customerID, name, balance and utilises the superclass constructor, setting all
+    //  three attributes to the values provided.
     public StudentCustomer(String customerID, String name, int balance) throws InvalidCustomerException{
         super(customerID, name, balance);
     }
@@ -18,8 +27,11 @@ public class StudentCustomer extends Customer {
     }
 
 // Service Methods
+    // chargeAccount(int) overrides the method provided by Customer. This method applies the student discount before attempting
+    //  to charge the customer, which is done by checking if subtraction of the discounted price from the balance will decrease the balance
+    //  below -500.
     public int chargeAccount(int snackPrice) throws InsufficientBalanceException{
-        snackPrice = Math.round( (float)(snackPrice * getDiscountAmount()) );
+        snackPrice = (int)Math.ceil( (float)(snackPrice * getDiscountAmount()) );
 
         int dummyBalance = balance;
         if ( (dummyBalance - snackPrice) > -501){
@@ -31,7 +43,9 @@ public class StudentCustomer extends Customer {
         }
         
     }
-
+    
+// Support Methods
+    // getDiscountAmount() returns the private static attribute studentDiscount.
     private static double getDiscountAmount(){
         return studentDiscount;
     }

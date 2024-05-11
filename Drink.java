@@ -1,6 +1,12 @@
+/******************************************************************************************************************
+ * public class Drink:
+ *  The Drink class is a sub-class of the abstract Snack class which provides additional functionality for specifying 
+ *  (and charging appropriately for) the sugar content of a Drink snack.
+ *******************************************************************************************************************/
 public class Drink extends Snack {
 
 // Enumerated Type for SugarContent
+    // SugarContents enum is used to ensure that the sugarContent attribute value lies within the accepted range of values
     private enum SugarContents{HIGH, LOW, NONE}
 
 // Attributes
@@ -8,7 +14,7 @@ public class Drink extends Snack {
 
 // Constructors
 
-    // Default Constructor - Takes all arguments except for sugarContent, in this case sugarContent defaults to NONE.
+    // This constructor takes arguments for all attributes except for sugarContent (snackID, name, basePrice). sugarContent defaults to NONE.
     public Drink(String snackID, String name, int basePrice) throws InvalidSnackException{
         super(snackID, name, basePrice);
 
@@ -17,7 +23,8 @@ public class Drink extends Snack {
         }
     }
 
-    // Full Constructor - Takes all arguments including sugarContent.
+    // This constructor takes arguments for all attributes - snackID, name, basePrice, sugarContent. sugarContent's value determines the amount
+    //  of sugar tax added to the price;
     public Drink(String snackID, String name, int basePrice, String sugarContent) throws InvalidSnackException{
         super(snackID, name, basePrice);
 
@@ -36,6 +43,8 @@ public class Drink extends Snack {
     }
 
 // Service Methods
+    // calculatePrice() is required by the Snack superclass - returns the basePrice + the amount of sugar tax appropriate for the
+    //  value of sugarContent.
     public int calculatePrice(){
         if (sugarContent == SugarContents.HIGH){
             return basePrice + 24;
@@ -49,6 +58,7 @@ public class Drink extends Snack {
     }
 
 // Support Methods
+    // isDrinkItem(String) verifies if a provided snackID is a Drink snack according to the provided snackID format.
     private boolean isDrinkItem(String snackID) throws InvalidSnackException{
         String firstChar = snackID.substring(0, 1);
 
@@ -60,7 +70,8 @@ public class Drink extends Snack {
         }
     }      
 
-
+    // validateSugarContent(String) takes the String input for sugarContent from the constructor and converts it into a value within the
+    //  SugarContents enum.
     private void validateSugarContent(String sugarString) throws InvalidSnackException{
         try{
             sugarContent = SugarContents.valueOf(sugarString.toUpperCase());

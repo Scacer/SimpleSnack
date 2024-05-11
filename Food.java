@@ -1,11 +1,19 @@
+/******************************************************************************************************************
+ * public class Food:
+ *  The Food class is a sub-class of the abstract Snack class which provides additonal functionality for specifying
+ *  (and charging appropriately for) heated Food snacks.
+ *******************************************************************************************************************/
 public class Food extends Snack {
 
-    // Class Variable
+// Class Variables
     public final double surchagePercentage = 1.1;
 
+// Attributes
     private boolean heated;
 
 // Constructor
+    // This constructor takes arguments for Food attributes - snackID, name, basePrice and heated. Heated's value determines
+    //  if the Food snack is subject to the surchage percentage.
     public Food(String snackID, String name, int basePrice, boolean heated) throws InvalidSnackException{
         super(snackID, name, basePrice);
 
@@ -24,12 +32,17 @@ public class Food extends Snack {
     }
 
 // Service Methods
+    // calculatePrice() is required by the superclass Snack - returns the surchage percentage if the Food is heated or simply the
+    //  basePrice if not.
     public int calculatePrice(){
-        int price = Math.round( (float)(basePrice * surchagePercentage) );
-        return price;
+        if (heated == true){
+            return (int)Math.ceil( (float)(basePrice * surchagePercentage) );
+        }
+        return basePrice;
     }
 
 // Support Methods
+    // isFoodItem(String) verifies if a provided snackID is a Food snack according to the provided snackID format.
     private boolean isFoodItem(String snackID) throws InvalidSnackException{
         String firstChar = snackID.substring(0, 1);
 

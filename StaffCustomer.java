@@ -1,18 +1,25 @@
+/******************************************************************************************************************
+ * public class StaffCustomer:
+ *  The StaffCustomer class extends Customer by adding extra functionality to specify which school each Staff
+ *  Customer belongs to, applying discounts to prices for each school appropriately.
+ ******************************************************************************************************************/
 public class StaffCustomer extends Customer{
 
 // Enumerated type for school
+    // Schools enum is used to ensure the school attribute value is within the categories provided by the specification.
     private enum Schools{CMP, BIO, MTH, OTHER};
 
 // Attributes
     private Schools school;
 
 // Constructors
-
+    // This constructor takes arguments for customerID, name, and school - using the superclass constructor and setting balance to 0.
     public StaffCustomer(String customerID, String name, String school) throws InvalidCustomerException{
         super(customerID, name);
         this.school = validateSchool(school);
     }
 
+    // This constructor takes arguments for all attributes - using the superclass constructor for customerID, name, balance.
     public StaffCustomer(String customerID, String name, int balance, String school)throws InvalidCustomerException{
         super(customerID, name, balance);
         this.school = validateSchool(school);
@@ -28,10 +35,12 @@ public class StaffCustomer extends Customer{
     }
 
 // Service Methods
-
+    // chargeAccount(int) overrides the method provided by Customer. This method applies the appropriate discount - based on StaffCustomer school - to
+    //  the snack price before attempting to charge the customer. StaffCustomers' balance must also not decrease below 0, this part of the method remains
+    //  unaltered.
     public int chargeAccount(int snackPrice) throws InsufficientBalanceException{
         double discountAmount = getDiscountAmount();
-        snackPrice = Math.round( (float)(snackPrice * discountAmount) );
+        snackPrice = (int)Math.ceil( (float)(snackPrice * discountAmount) );
 
         int dummyBalance = balance;
         if ( (dummyBalance - snackPrice) > -1){
@@ -44,6 +53,8 @@ public class StaffCustomer extends Customer{
     }
 
 // Support Methods
+    // validateSchool(String) takes the school argument provided at the constructor as an argument and converts it into an enum
+    //  value within the Schools enumerated type.
     private Schools validateSchool(String school){
         Schools customerSchool;
         try{
@@ -56,6 +67,7 @@ public class StaffCustomer extends Customer{
         }
     }
     
+    // getDiscountAmount() returns the appropriate discount modifier depending on the value of the StudentCustomer's School value.
     private double getDiscountAmount(){
         double discountAmount = 1;
         if (school == Schools.CMP){

@@ -9,19 +9,16 @@
                     or snack and finding the median of all customer balances should be implemented where relevant.
 ********************************************************************************************************************/
 
-/* 
+/*******************************************************************************************************************
  * public class Simulation:
  *  The simulation class' function is to read through files containing data pertaining to the snack shop simulation and
  *  to then input this data into objects defined by classes written to model the key objects in the SimpleSnack system.
  *  The second (and only other) function of this class - after having set up the shop environment - is to simulate the
  *  operation of a snack shop by reading through another file which contains a series of transactions to be made.
-*/
+*******************************************************************************************************************/
 import java.io.*;
 
 public class Simulation {
-    
-// Attributes
-    
 
 // Main Method
     public static void main(String args[]){
@@ -58,7 +55,7 @@ public class Simulation {
                         heated = true;
                     }
                     try{
-                        newSnackShop.addSnack(snackID, new Food(snackID, name, basePrice, heated));
+                        newSnackShop.addSnack(new Food(snackID, name, basePrice, heated));
                     }
                     catch (InvalidSnackException errString){
                         System.err.println(errString);
@@ -67,7 +64,7 @@ public class Simulation {
                 else{
                     String sugarContent = special;
                     try{
-                        newSnackShop.addSnack(snackID, new Drink(snackID, name, basePrice, sugarContent));
+                        newSnackShop.addSnack(new Drink(snackID, name, basePrice, sugarContent));
                     }
                     catch (InvalidSnackException errString){
                         System.err.println(errString);
@@ -90,19 +87,19 @@ public class Simulation {
                         String customerType = customerInfo[3];
 
                         if (customerType.equals("STUDENT")){
-                            newSnackShop.addCustomer(customerID, new StudentCustomer(customerID, name, balance));
+                            newSnackShop.addCustomer(new StudentCustomer(customerID, name, balance));
                         }
                         else if (customerType.equals("STAFF") && customerInfo.length < 5){
-                            newSnackShop.addCustomer(customerID, new StaffCustomer(customerID, name, balance, "OTHER"));
+                            newSnackShop.addCustomer(new StaffCustomer(customerID, name, balance, "OTHER"));
                         }
                         else{
                             String school = customerInfo[4];
-                            newSnackShop.addCustomer(customerID, new StaffCustomer(customerID, name, balance, school));
+                            newSnackShop.addCustomer(new StaffCustomer(customerID, name, balance, school));
                         }
                 
                     }
                     else{
-                        newSnackShop.addCustomer(customerID, new Customer(customerID, name, balance));
+                        newSnackShop.addCustomer(new Customer(customerID, name, balance));
                     }
                 }
                 catch (InvalidCustomerException errString){
@@ -120,14 +117,20 @@ public class Simulation {
         return newSnackShop;
     }
 
+    // The simulateShopping method takes both a SnackShop and File argument, this file should be a series of transactions which the
+    //  method will then read through, identifying which actions to take and apply to the SnackShop object and printing out a summary
+    //  line if successful and an appropriate Exception if not. Additionally this method calls the analytical functions to give a brief
+    //  look at the state of the SnackShop object at the end of all transactions.
     public static void simulateShopping(SnackShop shop, File transactionFile){
         try{
             BufferedReader reader = new BufferedReader(new FileReader(transactionFile));
             String currentLine;
 
+            // This while loop cycles through the provided file, providing each line as a String for manipulation
             while ((currentLine = reader.readLine()) != null){
                 String[] transactionInfo = currentLine.split(",");
 
+                // This block of code handles the NEW_CUSTOMER transactions
                if (transactionInfo[0].equals("NEW_CUSTOMER")){
                     try{
                         String customerID = transactionInfo[1];
@@ -138,19 +141,19 @@ public class Simulation {
                             String customerType = transactionInfo[3];
 
                             if (customerType.equals("STUDENT")){
-                                shop.addCustomer(customerID, new StudentCustomer(customerID, name, balance));
+                                shop.addCustomer(new StudentCustomer(customerID, name, balance));
                             }
                             else if (customerType.equals("STAFF") && transactionInfo.length < 6){
-                                shop.addCustomer(customerID, new StaffCustomer(customerID, name, balance, "OTHER"));
+                                shop.addCustomer(new StaffCustomer(customerID, name, balance, "OTHER"));
                             }
                             else{
                                 String school = transactionInfo[4];
-                                shop.addCustomer(customerID, new StaffCustomer(customerID, name, balance, school));
+                                shop.addCustomer(new StaffCustomer(customerID, name, balance, school));
                             }
 
                         }
                         else{
-                            shop.addCustomer(customerID, new Customer(customerID, name, balance));
+                            shop.addCustomer(new Customer(customerID, name, balance));
                         }
 
                         System.out.println("Account successfully registered for customer with ID \"" + customerID + "\"");
@@ -160,6 +163,7 @@ public class Simulation {
                     }
 
                 }
+                // This block of code handles the PURCHASE transactions
                 else if (transactionInfo[0].equals("PURCHASE")){
                     String customerID = transactionInfo[1];
                     String snackID = transactionInfo[2];
@@ -178,6 +182,7 @@ public class Simulation {
                         System.err.println(errString);
                     }
                 }
+                // This block of code handles the ADD_FUNDS transactions.
                 else if (transactionInfo[0].equals("ADD_FUNDS")){
                     String customerID = transactionInfo[1];
                     int amount = Integer.parseInt(transactionInfo[2]);

@@ -1,3 +1,8 @@
+/******************************************************************************************************************
+ * public class Customer:
+ *  The Customer class provides a framework for storing basic information about and providing functionality for
+ *  a customer's account - this includes manipulating a customer's balance by adding funds or charging the account.
+ ******************************************************************************************************************/
 import java.util.regex.Pattern;
 
 public class Customer {
@@ -7,6 +12,7 @@ public class Customer {
     protected int balance;
 
 // Constructors
+    // This constructor takes two arguments for the Customer attributes customerID and name - balance is automatically set to 0.
     public Customer(String customerID, String name) throws InvalidCustomerException{
         if (isValidCustomerID(customerID)){
             this.customerID = customerID;
@@ -15,6 +21,7 @@ public class Customer {
         }    
     }
 
+    // This constructor takes arguments for all Customer attributes - customerID, name, and balance.
     public Customer(String customerID, String name, int balance) throws InvalidCustomerException{
         if (isValidCustomerID(customerID) && balance > -1){
             this.customerID = customerID;
@@ -45,12 +52,15 @@ public class Customer {
 
 
 // Service Methods
+    // addFunds(int) takes an amount as an argument - if this amount is larger than zero it increases the balance attribute by the amount.
     public void addFunds(int amount){
         if (amount > 0){
             balance = balance + amount;
         }
     }
 
+    // chargeAccount(int) takes a snack price as an argument, if the customer balance will not decrease below 0 when subtracting the snack price from balance, the
+    //   customer is charged for it by decreasing the balance attribute by the snack price.
     public int chargeAccount(int snackPrice) throws InsufficientBalanceException{
         int dummyBalance = balance;
 
@@ -65,6 +75,7 @@ public class Customer {
     }
 
 // Support Methods
+    // isValidCustomer(String) takes a customer ID as an argument and validates it by ensuring it follows the format provided for customerID values.
     private boolean isValidCustomerID(String customerID) throws InvalidCustomerException{
         if (Pattern.matches("[A-Z0-9]{6}", customerID)){
             return true;
